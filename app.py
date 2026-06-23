@@ -1,7 +1,7 @@
 import streamlit as st# for ui(buttons, text, images, etc)
 from PIL import Image #used to import the image class from the python imaginglib(pil)(pillow)#open read process images
 
-st.title("🧴 SkinSense AI")
+st.title(" SkinSense AI")
 
 st.write("Upload a facial image for skin analysis.")
 
