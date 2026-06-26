@@ -1,5 +1,6 @@
 import streamlit as st# for ui(buttons, text, images, etc)
 from PIL import Image #used to import the image class from the python imaginglib(pil)(pillow)#open read process images
+from utils.face_detection import detect_faces
 
 st.title("SkinSense AI")
 
@@ -14,8 +15,10 @@ uploaded_file = st.file_uploader(
 if uploaded_file:#if uploaded_file is not None:
     image = Image.open(uploaded_file)
 
+    processed_image = detect_faces(image)
+
     st.image(
-        image,
+        processed_image,
         caption="Uploaded Image",
         use_container_width=True
     )
