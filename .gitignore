@@ -1,0 +1,17 @@
+# Dataset
+dataset/
+
+# Python virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Trained models
+*.keras
+*.h5
+
+# OS files
+.DS_Store
+Thumbs.db
