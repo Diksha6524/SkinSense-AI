@@ -55,8 +55,4 @@ def detect_faces(image):#image - PIL Image object
     #then i convert these cordinates into pixels(x,y,width,height)
     #opencv takes these info and draws a rectangle on the image_np
     #then finnaly i convert numpy array back to pil image 
-<<<<<<< HEAD
-    # and display it using streamlit
-=======
-    # and display it using streamlit
->>>>>>> 5f941d962598875d5617284259ab217ede2b44b5
+    # and displayit using streamlit

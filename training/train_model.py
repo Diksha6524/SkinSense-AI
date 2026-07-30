@@ -2,6 +2,9 @@ import tensorflow as tf #tf-laods daataset and trains model
 from pathlib import Path# path-creates reliabel path to daatset
 import matplotlib.pyplot as plt #plt-visualizes the training process
 
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+
 
 dataset_path = Path(__file__).resolve().parent.parent / "dataset"
 
@@ -36,16 +39,20 @@ validation_dataset=tf.keras.utils.image_dataset_from_directory(
 # The words are the class names.
 
 
+class_names = train_dataset.class_names
+num_classes = len(class_names)
+
+
 
 
 print("\nDataset Loaded Successfully!")
 print("-" * 40)
 
 print("Class Names:")
-print(train_dataset.class_names)
+print(class_names)
 
 print("\nNumber of Classes:")
-print(len(train_dataset.class_names))
+print(num_classes)
 
 print("\nTraining Batches:")
 print(len(train_dataset))
@@ -58,7 +65,7 @@ print(len(validation_dataset))
 
 #for printing iamges -testing
 
-for images, labels in train_dataset.take(2):#first batch--gets 32 images
+for images, labels in train_dataset.take(1):#first batch--gets 32 images
 
     plt.figure(figsize=(10, 10))#Creates a figure large enough to display multiple images.
 
@@ -68,7 +75,7 @@ for images, labels in train_dataset.take(2):#first batch--gets 32 images
 
         plt.imshow(images[i].numpy().astype("uint8"))#converts tensorFlow tensor into numpy array-as mtplt can display only numpy arrays
 
-        plt.title(train_dataset.class_names[labels[i]])#i takes number ie 1,2, or any ie it becmoes ex-[labels[0]]and  this becomez [5] ie [labels[0]]=5;;train_dataset.class_names[5]  it returns redness so title it gets is redness
+        plt.title(class_names[labels[i]])#i takes number ie 1,2, or any ie it becmoes ex-[labels[0]]and  this becomez [5] ie [labels[0]]=5;;train_dataset.class_names[5]  it returns redness so title it gets is redness
 
         plt.axis("off")#removes axis so that only photo is displayed
 
@@ -113,10 +120,10 @@ data_augmentation = tf.keras.Sequential([
 
 #for visulaization of data augmentation
 for images, labels in train_dataset.take(1):
-
+    first_image = images[0]
     plt.figure(figsize=(10, 10))
 
-    first_image = images[0]
+    
 
     for i in range(9):
 
@@ -133,6 +140,166 @@ for images, labels in train_dataset.take(1):
 
     plt.show()
 
+
+
+#applying mobile netv2 preprocessing
+train_dataset = train_dataset.map(
+    lambda x, y: (preprocess_input(x), y)
+)
+# in prprocessing/py we wrote image=image/255.0
+    #that gets normalized;mobienetv2 need values from -1  ->=1
+    # this done by preprocess_input() 
+
+
+validation_dataset = validation_dataset.map(
+    lambda x, y: (preprocess_input(x), y)
+)
+
+
+
+# Improve performance
+
+AUTOTUNE = tf.data.AUTOTUNE
+
+train_dataset = train_dataset.prefetch(AUTOTUNE)
+
+validation_dataset = validation_dataset.prefetch(AUTOTUNE)
+
+
+
+
+
+
+
+
+# LOAD PRE-TRAINED MOBILENETV2
+#whats mobilenetv2 -instead of traing cnn from scratch;
+#..we use a model that Google has already trained on over 1 million images.
+
+base_model =MobileNetV2(
+    input_shape=(224, 224, 3),#224 pixels 3 color channels
+    include_top=False,
+    weights="imagenet",#Instead of random weights...
+#we load Google's trained weights.
+    pooling=None
+
+)
+
+# Freeze the pretrained layers
+base_model.trainable = False #Imagine Google spent months training MobileNet.
+#We freeze those layers.
+
+#Don't change Google's knowledge.
+#Only learn skin diseases.
+
+
+
+
+
+# Build the complete model
+
+inputs = tf.keras.Input(shape=(224,224,3))
+
+x = data_augmentation(inputs)
+
+x = base_model(x, training=False)
+
+x = tf.keras.layers.GlobalAveragePooling2D()(x)
+
+x = tf.keras.layers.Dropout(0.3)(x)
+
+x = tf.keras.layers.Dense(
+    128,
+    activation="relu"
+)(x)
+
+x = tf.keras.layers.Dropout(0.3)(x)
+
+outputs = tf.keras.layers.Dense(
+    num_classes,
+    activation="softmax"
+)(x)
+
+model = tf.keras.Model(inputs, outputs)
+
+model.summary()
+
+
+
+#compile step 
+model.compile(
+    optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),#makes optimization that is how can model make prediction correctlt nex time
+    #adam -commonly used optimizer;it learns quicly is stable
+    #learning rate=0.001 -> this controls how big each learning step is 
+    loss="sparse_categorical_crossentropy",
+    # this measrures how wrong the model is 
+    # sparse_categorical_crossentropy-> as lables are in int values 
+    metrics=["accuracy"]# it tells us correct preddiction / total prediction
+)
+
+#for -Train the model
+
+history = model.fit(
+    train_dataset,#80%images
+    validation_data=validation_dataset,#20%images
+    epochs=5
+    )# epoch-The model sees every training image once.
+    #in totla 4235 iamges 
+    #training 80%-3388
+    #epoch-10->the model will see those 3388 images 10 times.
+# that is epoch1
+#          3388images
+#         |
+#        poch2   
+# 3388images so on  
+#       |
+#   Epoch 10
+#  3388 images
+#each tim it impoves a little little
+
+
+# Save the trained model
+
+model.save("models/model.keras")
+
+print("\nModel saved successfully!")
+
+
+
+# Plot Accuracy
+
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+plt.plot(history.history["accuracy"], label="Training Accuracy")
+plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
+plt.xlabel("Epoch")
+plt.ylabel("Accuracy")
+plt.legend()
+plt.title("Model Accuracy")
+
+# Plot Loss
+
+plt.subplot(1, 2, 2)
+plt.plot(history.history["loss"], label="Training Loss")
+plt.plot(history.history["val_loss"], label="Validation Loss")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.legend()
+plt.title("Model Loss")
+
+plt.show()
+
+
+
+
+ 
+#Final Results
+# Metric	       Value
+# Training Accuracy	78.18%
+# Validation Accuracy	73.29%
+# Training Loss	0.6176
+# Validation Loss	0.7937
 
 
 #working flow

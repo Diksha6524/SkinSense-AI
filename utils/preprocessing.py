@@ -5,7 +5,7 @@ def preprocess_image(image):
 
     image = image.resize((224, 224))#resize
 
-    image = np.array(image)#conversion pil to numpy
+    image = np.array(image,dtype=np.float32)#conversion pil to numpy
     image = image / 255.0 # FOR NORMALIZATION
 # divide by 255 cuz  Image pixels (0–255)
 #std 8 bit image stores color channel in range 0 to 255
