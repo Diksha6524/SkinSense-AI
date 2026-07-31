@@ -1,10 +1,12 @@
 import streamlit as st# for ui(buttons, text, images, etc)
 from PIL import Image #used to import the image class from the python imaginglib(pil)(pillow)#open read process images
 
+
 from utils.face_detection import detect_faces
 # from utils.preprocessing import preprocess_image
 from models.predictor import predict_skin,get_severity
 from assets.skin_info import SKIN_INFO
+from ai.recommendation import get_recommendation
 
 
 st.title("SkinSense AI")
@@ -47,6 +49,10 @@ if uploaded_file is not None:
         st.success(f"Prediction: {predicted_class.replace('_', ' ').title()}")
 
         st.info(f"Confidence: {confidence * 100:.2f}%")
+        with st.spinner("Generating skincare recommendations..."):
+          recommendation = get_recommendation(predicted_class)
+
+          st.markdown(recommendation)
 
 
 
