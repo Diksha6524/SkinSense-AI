@@ -259,11 +259,15 @@ Upload Image / Webcam Capture
 
 ### Prediction Results
 
-_Add Screenshot Here_
+<img width="1919" height="874" alt="image" src="https://github.com/user-attachments/assets/f947a1e9-4b55-410e-9d34-f5f8594c0778" />
+<img width="1919" height="903" alt="image" src="https://github.com/user-attachments/assets/67d8be47-411c-4840-8d06-86474876d354" />
+
+
 
 ### PDF Report
 
-_Add Screenshot Here_
+<img width="555" height="836" alt="image" src="https://github.com/user-attachments/assets/9a7ec2aa-8581-4e1b-8d5c-3e04f14d1096" />
+
 
 ---
 
