@@ -1,69 +1,204 @@
 # SkinSense AI
 
-AI-powered skin analysis assistant that uses Computer Vision and facial landmark detection to analyze skin conditions, generate reports, and provide personalized skincare recommendations.
+AI-powered skin analysis assistant that combines Computer Vision, Deep Learning, and Generative AI to analyze facial skin conditions and provide personalized skincare recommendations.
 
 ---
 
-##  Features
+## Overview
 
-- Upload facial images
-- Face detection using MediaPipe
-- Facial landmark detection
-- Skin region extraction
-- Redness analysis
-- Skin brightness analysis
-- Skin type estimation
-- Personalized skincare recommendations
-- Interactive web interface with Streamlit
+SkinSense AI allows users to:
+
+- Upload a facial image
+- Capture a photo using a webcam
+- Detect faces automatically
+- Predict skin conditions using a Deep Learning model
+- Generate AI-powered skincare recommendations
+- Download a PDF skin analysis report
 
 ---
 
-##  Tech Stack
+## Features
 
-- Python
-- OpenCV
-- MediaPipe
-- NumPy
-- Pillow
+### Computer Vision
+
+- Face Detection using MediaPipe
+- Automatic Face Cropping
+- Image Preprocessing
+- Webcam Support
+- Facial Image Analysis
+
+### Deep Learning
+
+- MobileNetV2 Transfer Learning Model
+- Skin Condition Classification
+- Confidence Score Generation
+- Top 3 Predictions
+- Severity Estimation
+
+### AI Recommendations
+
+- Powered by Google Gemini
+- Condition Explanation
+- Possible Causes
+- Recommended Skin Care
+- Ingredients to Look For
+- Things to Avoid
+- When to Visit a Dermatologist
+
+### PDF Reports
+
+- Downloadable Skin Analysis Report
+- Prediction Summary
+- Confidence Score
+- Severity Level
+- AI Recommendations
+
+### User Interface
+
+- Streamlit Web Application
+- Image Upload Support
+- Webcam Capture Support
+- Interactive Results Display
+
+---
+
+## Supported Skin Conditions
+
+The model can classify the following skin conditions:
+
+- Blackheads
+- Dark Spots
+- Inflammatory Acne
+- Pigmentation
+- Pores
+- Redness
+- Whiteheads
+- Wrinkles
+
+---
+
+## AI Model
+
+SkinSense AI uses a **MobileNetV2-based Transfer Learning Model** trained for skin condition classification.
+
+### Model Architecture
+
+```text
+Input Image (224×224×3)
+        ↓
+MobileNetV2 (Pretrained on ImageNet)
+        ↓
+GlobalAveragePooling2D
+        ↓
+Dropout
+        ↓
+Dense (128)
+        ↓
+Dropout
+        ↓
+Dense (8 Classes)
+```
+
+### Model Details
+
+- Base Model: MobileNetV2
+- Framework: TensorFlow / Keras
+- Input Size: 224 × 224
+- Number of Classes: 8
+- Transfer Learning: Yes
+
+---
+
+## Tech Stack
+
+### Frontend
+
 - Streamlit
 
+### Computer Vision
+
+- OpenCV
+- MediaPipe
+- Pillow
+
+### Deep Learning
+
+- TensorFlow
+- Keras
+- MobileNetV2
+
+### AI Integration
+
+- Google Gemini API
+
+### Data Processing
+
+- NumPy
+
+### Report Generation
+
+- ReportLab
+
 ---
 
-##  Project Structure
+## Project Structure
 
 ```text
 SkinSense-AI/
 │
 ├── app.py
+│
+├── ai/
+│   └── recommendation.py
+│
+├── models/
+│   ├── predictor.py
+│   └── model.keras
+│
+├── reports/
+│   └── report_generator.py
+│
 ├── utils/
-│   ├── face_detection.py
-│   ├── skin_analysis.py
-│   └── recommendations.py
+│   └── face_detection.py
 │
 ├── assets/
-├── reports/
+│
 ├── requirements.txt
-└── README.md
+├── README.md
+└── .env
 ```
 
 ---
 
+## Installation
 
-##  Installation
-
-### 1. Clone the Repository
+### 1. Clone Repository
 
 ```bash
-git clone https://github.com/Diksha6524/SkinSense-AI.git
+git clone https://github.com/YOUR_USERNAME/SkinSense-AI.git
 ```
 
-### 2. Navigate to the Project Folder
+### 2. Navigate to Project Folder
 
 ```bash
 cd SkinSense-AI
 ```
 
-### 3. Install Dependencies
+### 3. Create Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+### 4. Activate Virtual Environment
+
+#### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+### 5. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -71,7 +206,19 @@ pip install -r requirements.txt
 
 ---
 
-## Running the Application
+## Gemini API Setup
+
+Create a `.env` file in the root directory.
+
+```env
+GEMINI_API_KEY=YOUR_API_KEY
+```
+
+Get your API key from Google AI Studio.
+
+---
+
+## Run the Application
 
 ```bash
 streamlit run app.py
@@ -79,48 +226,27 @@ streamlit run app.py
 
 ---
 
-##  Workflow
+## Application Workflow
 
 ```text
-Image Upload
-      ↓
-Face Detection
-      ↓
-Facial Landmark Detection
-      ↓
-Skin Region Extraction
-      ↓
-Skin Analysis
-      ↓
-Report Generation
-      ↓
-Personalized Recommendations
+Upload Image / Webcam Capture
+              ↓
+        Face Detection
+              ↓
+         Face Cropping
+              ↓
+      Image Preprocessing
+              ↓
+     MobileNetV2 Prediction
+              ↓
+     Skin Condition Analysis
+              ↓
+     Gemini AI Recommendation
+              ↓
+      PDF Report Generation
+              ↓
+        Result Display
 ```
-
----
-
-##  Learning Objectives
-
-Through this project, I aim to learn:
-
-- Computer Vision fundamentals
-- Image processing using OpenCV
-- Facial landmark detection with MediaPipe
-- AI-powered skin analysis
-- Streamlit application development
-- End-to-end AI project deployment
-
----
-
-##  Future Enhancements
-
-- Acne detection using CNNs
-- Skin condition classification
-- Before-and-after comparison
-- Progress tracking dashboard
-- PDF report generation
-- Cloud deployment
-- Personalized skincare routine planner
 
 ---
 
@@ -128,72 +254,63 @@ Through this project, I aim to learn:
 
 ### Home Page
 
+_Add Screenshot Here_
 
+### Prediction Results
 
-### Skin Analysis Report
+_Add Screenshot Here_
 
+### PDF Report
 
----
-
-## Contributing
-
-Contributions, suggestions, and improvements are welcome.
-
-1. Fork the repository
-2. Create a new feature branch
-3. Commit your changes
-4. Open a pull request
+_Add Screenshot Here_
 
 ---
 
-##  Author
+## Future Enhancements
+
+- Progress Tracking Dashboard
+- Before vs After Comparison
+- User Authentication
+- Skin Health History
+- Cloud Deployment
+- Mobile Application
+- Personalized Skincare Planner
+- Product Recommendation Engine
+- Dermatologist Consultation Integration
+
+---
+
+## Learning Outcomes
+
+Through this project, I learned:
+
+- Computer Vision using OpenCV
+- Face Detection using MediaPipe
+- Deep Learning with TensorFlow
+- Transfer Learning using MobileNetV2
+- Gemini API Integration
+- Streamlit Web Development
+- PDF Report Generation
+- End-to-End AI Project Development
+
+---
+
+## Disclaimer
+
+This project is intended for educational purposes only.
+
+The predictions and skincare recommendations generated by SkinSense AI should not be considered medical advice and do not replace consultation with a qualified dermatologist.
+
+---
+
+## Author
 
 **Diksha**
 
+Computer Engineering Student
+
 ---
 
-##  Support
+## Support
 
-If you find this project useful, consider giving it a star on GitHub.
-<<<<<<< HEAD
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#for me 
-
-
-Part 1 ✅ Computer Vision
--------------------------
-✔ Upload Image
-✔ Face Detection
-✔ Face Cropping
-✔ Preprocessing
-
-Part 2 🚀 Machine Learning
---------------------------
-⬜ Get Dataset
-⬜ Train MobileNetV2
-⬜ Save Model (.keras)
-⬜ Load Model
-⬜ Predict
-⬜ Show Recommendations
-=======
->>>>>>> 5f941d962598875d5617284259ab217ede2b44b5
+If you found this project useful, please consider giving it a ⭐ on GitHub.
