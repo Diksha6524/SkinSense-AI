@@ -175,7 +175,7 @@ SkinSense-AI/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/SkinSense-AI.git
+git clone https://github.com/Diksha6524/SkinSense-AI.git
 ```
 
 ### 2. Navigate to Project Folder
