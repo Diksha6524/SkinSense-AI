@@ -67,10 +67,10 @@ def predict_skin(image):
 
 def get_severity(confidence):
 
-    if confidence < 0.60:
+    if confidence < 0.50:
         return "🟢 Mild"
 
-    elif confidence < 0.85:
+    elif confidence < 0.80:
         return "🟡 Moderate"
 
     else:
