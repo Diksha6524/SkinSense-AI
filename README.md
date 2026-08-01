@@ -254,7 +254,8 @@ Upload Image / Webcam Capture
 
 ### Home Page
 
-_Add Screenshot Here_
+<img width="1919" height="905" alt="image" src="https://github.com/user-attachments/assets/980b3626-db4a-4b8e-a670-c60950260bc5" />
+
 
 ### Prediction Results
 
